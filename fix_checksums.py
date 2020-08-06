@@ -27,6 +27,7 @@ def recalculate_checksum(line):
 	if checksum_str != line[-2:]:
 		print "Fixing checksum mismatch for line {}".format(line)
 		line = line[:-2] + checksum_str
+		did_update = True
 
 	return line + "\r", did_update
 
@@ -46,8 +47,8 @@ if __name__ == '__main__':
 	lines = []
 	did_update = False
 	for line in firmware_data.split("\n"):
-		result, did_update = recalculate_checksum(line)
-		did_update |= did_update
+		result, line_did_update = recalculate_checksum(line)
+		did_update |= line_did_update
 		lines.append(result)
 
 	if did_update:
